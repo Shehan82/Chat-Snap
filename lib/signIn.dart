@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'inputField.dart';
-
 class SignIn extends StatefulWidget {
   @override
   _SignInState createState() => _SignInState();
