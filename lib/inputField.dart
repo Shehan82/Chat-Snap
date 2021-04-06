@@ -10,7 +10,7 @@ class InputField extends StatelessWidget {
       child: TextField(
         decoration: InputDecoration(
             hintText: hintText,
-            hintStyle: TextStyle(color: Colors.white),
+            hintStyle: TextStyle(color: Colors.white, fontSize: 17),
             enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.white))),
         style: TextStyle(color: Colors.white),
