@@ -1,3 +1,4 @@
+import 'package:chat_app/inputField.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -20,28 +21,7 @@ class MyApp extends StatelessWidget {
           title: Text("Chat Snap"),
         ),
         body: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.all(20),
-              child: TextField(
-                decoration: InputDecoration(
-                    hintText: 'Email',
-                    hintStyle: TextStyle(color: Colors.white),
-                    enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white))),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(20),
-              child: TextField(
-                decoration: InputDecoration(
-                    hintText: 'Password',
-                    hintStyle: TextStyle(color: Colors.white),
-                    enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white))),
-              ),
-            )
-          ],
+          children: [InputField("Email"), InputField("Password")],
         ),
       ),
     );
