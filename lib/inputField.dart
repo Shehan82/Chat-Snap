@@ -6,13 +6,14 @@ class InputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.all(15),
       child: TextField(
         decoration: InputDecoration(
             hintText: hintText,
             hintStyle: TextStyle(color: Colors.white),
             enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.white))),
+        style: TextStyle(color: Colors.white),
       ),
     );
   }
