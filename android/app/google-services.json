@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "946852783063",
+    "project_id": "chat-snap-359cf",
+    "storage_bucket": "chat-snap-359cf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:946852783063:android:8bd3dfbc54f5952146a192",
+        "android_client_info": {
+          "package_name": "com.example.chat_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "946852783063-1tvmdtglmr4ns0s0f048srjd8q1dg93p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbJG3FlCWXKdEnsz3fp__00MIT9f898jg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "946852783063-1tvmdtglmr4ns0s0f048srjd8q1dg93p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

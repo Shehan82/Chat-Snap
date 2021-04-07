@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 
-import 'inputField.dart';
-
 class SignUp extends StatefulWidget {
   @override
   _SignUpState createState() => _SignUpState();
 }
 
 class _SignUpState extends State<SignUp> {
+  final formKey = GlobalKey<FormState>();
   TextEditingController userNameTEC = new TextEditingController();
   TextEditingController emailTEC = new TextEditingController();
   TextEditingController passwordTEC = new TextEditingController();
+
+  signMeUp() {
+    if (formKey.currentState.validate()) {}
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,42 +32,54 @@ class _SignUpState extends State<SignUp> {
             // mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                padding: EdgeInsets.all(15),
-                child: TextField(
-                  controller: userNameTEC,
-                  decoration: InputDecoration(
-                      hintText: "User Name",
-                      hintStyle: TextStyle(color: Colors.white, fontSize: 17),
-                      enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white))),
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(15),
-                child: TextField(
-                  controller: emailTEC,
-                  decoration: InputDecoration(
-                      hintText: "Email",
-                      hintStyle: TextStyle(color: Colors.white, fontSize: 17),
-                      enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white))),
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(15),
-                child: TextField(
-                  controller: passwordTEC,
-                  decoration: InputDecoration(
-                      hintText: "Password",
-                      hintStyle: TextStyle(color: Colors.white, fontSize: 17),
-                      enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white))),
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
+              Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(15),
+                        child: TextFormField(
+                          validator: (val) {
+                            return "this will never Work";
+                          },
+                          controller: userNameTEC,
+                          decoration: InputDecoration(
+                              hintText: "User Name",
+                              hintStyle:
+                                  TextStyle(color: Colors.white, fontSize: 17),
+                              enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white))),
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(15),
+                        child: TextFormField(
+                          controller: emailTEC,
+                          decoration: InputDecoration(
+                              hintText: "Email",
+                              hintStyle:
+                                  TextStyle(color: Colors.white, fontSize: 17),
+                              enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white))),
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(15),
+                        child: TextFormField(
+                          controller: passwordTEC,
+                          decoration: InputDecoration(
+                              hintText: "Password",
+                              hintStyle:
+                                  TextStyle(color: Colors.white, fontSize: 17),
+                              enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white))),
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  )),
 
               SizedBox(
                 height: 15,
@@ -85,7 +101,7 @@ class _SignUpState extends State<SignUp> {
                 margin: EdgeInsets.all(15),
                 height: 50,
                 child: InkWell(
-                  onTap: () => {print(userNameTEC.text)},
+                  onTap: () => {signMeUp()},
                   child: Container(
                     width: double.infinity,
                     alignment: Alignment.center,

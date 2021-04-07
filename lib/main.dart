@@ -1,4 +1,3 @@
-import 'package:chat_app/inputField.dart';
 import 'package:chat_app/signIn.dart';
 import 'package:chat_app/signUp.dart';
 import 'package:flutter/material.dart';
