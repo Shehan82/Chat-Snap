@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "946852783063",
-    "project_id": "chat-snap-359cf",
-    "storage_bucket": "chat-snap-359cf.appspot.com"
+    "project_number": "709931174",
+    "project_id": "chat-snap-4ea1b",
+    "storage_bucket": "chat-snap-4ea1b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:946852783063:android:8bd3dfbc54f5952146a192",
+        "mobilesdk_app_id": "1:709931174:android:b858057895908b860a4467",
         "android_client_info": {
           "package_name": "com.example.chat_app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "946852783063-1tvmdtglmr4ns0s0f048srjd8q1dg93p.apps.googleusercontent.com",
+          "client_id": "709931174-a73do95r02gq7vuo5174o6cjgns3mfp7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chat_app",
+            "certificate_hash": "b0a4f376a1186238e9bd912dd32379b963bf3c7b"
+          }
+        },
+        {
+          "client_id": "709931174-5a97aks77fojvegfld9iv4nf6kmpuhsc.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAbJG3FlCWXKdEnsz3fp__00MIT9f898jg"
+          "current_key": "AIzaSyBse28e8zE8ROg2HeRyg7SKstEXF8mghs8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "946852783063-1tvmdtglmr4ns0s0f048srjd8q1dg93p.apps.googleusercontent.com",
+              "client_id": "709931174-5a97aks77fojvegfld9iv4nf6kmpuhsc.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
