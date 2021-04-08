@@ -52,25 +52,25 @@ class _SignUpState extends State<SignUp> {
                         key: formKey,
                         child: Column(
                           children: [
-                            // Container(
-                            //   padding: EdgeInsets.all(15),
-                            //   child: TextFormField(
-                            //     validator: (val) {
-                            //       return val.isEmpty || val.length < 4
-                            //           ? "UserName Greater than 4"
-                            //           : null;
-                            //     },
-                            //     controller: userNameTEC,
-                            //     decoration: InputDecoration(
-                            //         hintText: "User Name",
-                            //         hintStyle: TextStyle(
-                            //             color: Colors.white, fontSize: 17),
-                            //         enabledBorder: UnderlineInputBorder(
-                            //             borderSide:
-                            //                 BorderSide(color: Colors.white))),
-                            //     style: TextStyle(color: Colors.white),
-                            //   ),
-                            // ),
+                            Container(
+                              padding: EdgeInsets.all(15),
+                              child: TextFormField(
+                                validator: (val) {
+                                  return val.isEmpty || val.length < 4
+                                      ? "UserName Greater than 4"
+                                      : null;
+                                },
+                                controller: userNameTEC,
+                                decoration: InputDecoration(
+                                    hintText: "User Name",
+                                    hintStyle: TextStyle(
+                                        color: Colors.white, fontSize: 17),
+                                    enabledBorder: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.white))),
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
                             Container(
                               padding: EdgeInsets.all(15),
                               child: TextFormField(

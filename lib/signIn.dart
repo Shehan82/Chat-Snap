@@ -1,4 +1,5 @@
 import 'package:chat_app/auth.dart';
+import 'package:chat_app/chatRoom.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
@@ -24,6 +25,9 @@ class _SignInState extends State<SignIn> {
       authMethods
           .signInWithEmailAndPassword(emailTEC.text, passwordTEC.text)
           .then((value) => print(value));
+
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => ChatRoom()));
     }
   }
 
