@@ -1,5 +1,6 @@
 import 'package:chat_app/auth.dart';
 import 'package:chat_app/chatRoom.dart';
+import 'package:chat_app/signUp.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
@@ -152,12 +153,20 @@ class _SignInState extends State<SignIn> {
                     "Don't have an account? ",
                     style: TextStyle(color: Colors.white, fontSize: 15),
                   ),
-                  Text(
-                    "Register now",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                        decoration: TextDecoration.underline),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => SignUp()));
+                    },
+                    child: Container(
+                      child: Text(
+                        "Register now",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                            decoration: TextDecoration.underline),
+                      ),
+                    ),
                   )
                 ],
               )

@@ -2,6 +2,8 @@ import 'package:chat_app/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
+import 'signIn.dart';
+
 class SignUp extends StatefulWidget {
   @override
   _SignUpState createState() => _SignUpState();
@@ -174,9 +176,23 @@ class _SignUpState extends State<SignUp> {
                           "Already have an account? ",
                           style: TextStyle(color: Colors.white, fontSize: 15),
                         ),
-                        Text(
-                          "Sign In now",
-                          style: TextStyle(color: Colors.white, fontSize: 15),
+                        InkWell(
+                          onTap: () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SignIn()));
+                          },
+                          child: Container(
+                            child: Text(
+                              "Sign In now",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ),
                         )
                       ],
                     )
