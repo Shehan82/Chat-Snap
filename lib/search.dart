@@ -10,14 +10,14 @@ class _SearchState extends State<Search> {
   TextEditingController searchTEC = new TextEditingController();
   DatabaseFunctions dbMethods = new DatabaseFunctions();
 
-  Widget searchList()
-  {
-    return ListView.builder(
-      itemCount: ,
-    itemBuilder: (context, index){
-      return  
-    })
-  }
+  // Widget searchList()
+  // {
+  //   return ListView.builder(
+  //     itemCount: ,
+  //   itemBuilder: (context, index){
+  //     return
+  //   })
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,7 @@ class _SearchState extends State<Search> {
                 Container(
                   padding: EdgeInsets.all(15),
                   child: FloatingActionButton(
-                    backgroundColor: Colors.black,
+                    backgroundColor: Colors.indigo[900],
                     onPressed: () {
                       dbMethods.getUserByUserName(searchTEC.text);
                     },
