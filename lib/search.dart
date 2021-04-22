@@ -74,10 +74,10 @@ class _SearchState extends State<Search> {
                     child: Icon(Icons.search_rounded),
                   ),
                 ),
-                searchList()
               ],
             ),
           ),
+          searchList(),
         ],
       ),
     );

@@ -2,14 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseFunctions {
   getUserByUserName(userName) {
+    print(userName);
     return FirebaseFirestore.instance
         .collection("users")
         .where("name", isEqualTo: userName)
         .get();
-
-    // .then((value) => print(value.docs[0].data()["name"]));
-
-    // print(x);
   }
 
   uploadUserInfo(userMap) {
