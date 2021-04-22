@@ -9,6 +9,16 @@ class Search extends StatefulWidget {
 class _SearchState extends State<Search> {
   TextEditingController searchTEC = new TextEditingController();
   DatabaseFunctions dbMethods = new DatabaseFunctions();
+
+  Widget searchList()
+  {
+    return ListView.builder(
+      itemCount: ,
+    itemBuilder: (context, index){
+      return  
+    })
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
