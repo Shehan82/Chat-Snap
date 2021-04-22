@@ -1,3 +1,4 @@
+import 'package:chat_app/services/databaseFunc.dart';
 import 'package:flutter/material.dart';
 
 class Search extends StatefulWidget {
@@ -7,6 +8,7 @@ class Search extends StatefulWidget {
 
 class _SearchState extends State<Search> {
   TextEditingController searchTEC = new TextEditingController();
+  DatabaseFunctions dbMethods = new DatabaseFunctions();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +42,7 @@ class _SearchState extends State<Search> {
                   child: FloatingActionButton(
                     backgroundColor: Colors.black,
                     onPressed: () {
-                      print("object");
+                      dbMethods.getUserByUserName(searchTEC.text);
                     },
                     child: Icon(Icons.search_rounded),
                   ),
