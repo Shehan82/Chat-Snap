@@ -1,4 +1,5 @@
 import 'package:chat_app/services/databaseFunc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Search extends StatefulWidget {
@@ -10,13 +11,29 @@ class _SearchState extends State<Search> {
   TextEditingController searchTEC = new TextEditingController();
   DatabaseFunctions dbMethods = new DatabaseFunctions();
 
-  Widget searchList()
-  {
-    return ListView.builder(
-      itemCount: ,
-    itemBuilder: (context, index){
-      return 
-    })
+  QuerySnapshot snapshot;
+
+  initiateSearch() {
+    dbMethods.getUserByUserName(searchTEC.text).then((val) {
+      setState(() {
+        snapshot = val;
+      });
+      print(snapshot.size);
+    });
+  }
+
+  Widget searchList() {
+    return snapshot != null
+        ? ListView.builder(
+            itemCount: snapshot.size,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return SearchTile(
+                userName: snapshot.docs[0].data()["name"],
+                userEmail: snapshot.docs[0].data()["email"],
+              );
+            })
+        : Container();
   }
 
   @override
@@ -52,11 +69,12 @@ class _SearchState extends State<Search> {
                   child: FloatingActionButton(
                     backgroundColor: Colors.indigo[900],
                     onPressed: () {
-                      dbMethods.getUserByUserName(searchTEC.text);
+                      initiateSearch();
                     },
                     child: Icon(Icons.search_rounded),
                   ),
-                )
+                ),
+                searchList()
               ],
             ),
           ),
@@ -76,19 +94,19 @@ class SearchTile extends StatelessWidget {
     return Container(
       child: Row(
         children: [
-          Column(
-            children: [
-              Text(userName, style: TextStyle(color: Colors.white)),
-              Text(userEmail, style: TextStyle(color: Colors.white))
-            ]
-          ),
+          Column(children: [
+            Text(userName, style: TextStyle(color: Colors.white)),
+            Text(userEmail, style: TextStyle(color: Colors.white))
+          ]),
           Spacer(),
           Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.indigo[900]
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.indigo[900]),
+            child: Text(
+              "Message",
+              style: TextStyle(color: Colors.white),
             ),
-            child: Text("Message", style: TextStyle(color: Colors.white),),
           )
         ],
       ),
