@@ -1,4 +1,5 @@
 import 'package:chat_app/services/auth.dart';
+import 'package:chat_app/services/databaseFunc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,7 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   AuthMethods authMethods = new AuthMethods();
+  DatabaseFunctions dbMethods = new DatabaseFunctions();
   final formKey = GlobalKey<FormState>();
   bool isLoading = false;
   TextEditingController userNameTEC = new TextEditingController();
@@ -23,6 +25,11 @@ class _SignUpState extends State<SignUp> {
         isLoading = true;
       });
 
+      Map<String, String> userMap = {
+        "email": emailTEC.text,
+        "name": userNameTEC.text
+      };
+      dbMethods.uploadUserInfo(userMap);
       authMethods
           .signUpWithEmailAndPassword(emailTEC.text, passwordTEC.text)
           .then((value) => print(value));
