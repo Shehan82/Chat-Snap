@@ -10,14 +10,14 @@ class _SearchState extends State<Search> {
   TextEditingController searchTEC = new TextEditingController();
   DatabaseFunctions dbMethods = new DatabaseFunctions();
 
-  // Widget searchList()
-  // {
-  //   return ListView.builder(
-  //     itemCount: ,
-  //   itemBuilder: (context, index){
-  //     return
-  //   })
-  // }
+  Widget searchList()
+  {
+    return ListView.builder(
+      itemCount: ,
+    itemBuilder: (context, index){
+      return 
+    })
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +60,36 @@ class _SearchState extends State<Search> {
               ],
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class SearchTile extends StatelessWidget {
+  final String userName;
+  final String userEmail;
+  SearchTile({this.userName, this.userEmail});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Row(
+        children: [
+          Column(
+            children: [
+              Text(userName, style: TextStyle(color: Colors.white)),
+              Text(userEmail, style: TextStyle(color: Colors.white))
+            ]
+          ),
+          Spacer(),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.indigo[900]
+            ),
+            child: Text("Message", style: TextStyle(color: Colors.white),),
+          )
         ],
       ),
     );
