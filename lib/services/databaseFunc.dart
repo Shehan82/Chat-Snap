@@ -16,4 +16,14 @@ class DatabaseFunctions {
       print(e);
     });
   }
+
+  createChatRoom(docName, userMap) {
+    FirebaseFirestore.instance
+        .collection("chatRoom")
+        .doc(docName)
+        .set(userMap)
+        .catchError((e) {
+      print(e);
+    });
+  }
 }
