@@ -92,20 +92,33 @@ class SearchTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.all(15),
       child: Row(
         children: [
-          Column(children: [
-            Text(userName, style: TextStyle(color: Colors.white)),
-            Text(userEmail, style: TextStyle(color: Colors.white))
+          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(
+              userName,
+              style: TextStyle(color: Colors.white, fontSize: 17),
+            ),
+            Text(userEmail, style: TextStyle(color: Colors.white, fontSize: 17))
           ]),
           Spacer(),
           Container(
+            height: 40,
+            width: 100,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(40),
                 color: Colors.indigo[900]),
-            child: Text(
-              "Message",
-              style: TextStyle(color: Colors.white),
+            child: Center(
+              child: InkWell(
+                onTap: () {
+                  print("helllooo hiiii");
+                },
+                child: Text(
+                  "Message",
+                  style: TextStyle(color: Colors.white, fontSize: 17),
+                ),
+              ),
             ),
           )
         ],
