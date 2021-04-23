@@ -1,5 +1,7 @@
 import 'package:chat_app/services/auth.dart';
 import 'package:chat_app/chatRoom.dart';
+import 'package:chat_app/services/databaseFunc.dart';
+import 'package:chat_app/services/helper.dart';
 import 'package:chat_app/signUp.dart';
 import 'package:flutter/material.dart';
 
@@ -25,10 +27,15 @@ class _SignInState extends State<SignIn> {
 
       authMethods
           .signInWithEmailAndPassword(emailTEC.text, passwordTEC.text)
-          .then((value) => print(value));
-
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => ChatRoom()));
+          .then((value) => {
+                if (value != null)
+                  {
+                    helperFunctions.saveUserLoggedInSP(true),
+                    helperFunctions.saveUserEmailSP(emailTEC.text),
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => ChatRoom()))
+                  }
+              });
     }
   }
 

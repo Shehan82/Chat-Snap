@@ -9,6 +9,13 @@ class DatabaseFunctions {
         .get();
   }
 
+  getUserByUserEmail(userEmail) {
+    return FirebaseFirestore.instance
+        .collection("users")
+        .where("email", isEqualTo: userEmail)
+        .get();
+  }
+
   uploadUserInfo(userMap) {
     print(userMap);
     print("helloooo");
