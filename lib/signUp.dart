@@ -1,5 +1,7 @@
+import 'package:chat_app/chatRoom.dart';
 import 'package:chat_app/services/auth.dart';
 import 'package:chat_app/services/databaseFunc.dart';
+import 'package:chat_app/services/helper.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -29,10 +31,21 @@ class _SignUpState extends State<SignUp> {
         "email": emailTEC.text,
         "name": userNameTEC.text
       };
+
       dbMethods.uploadUserInfo(userMap);
       authMethods
           .signUpWithEmailAndPassword(emailTEC.text, passwordTEC.text)
-          .then((value) => print(value));
+          .then((value) => {
+                if (value != null)
+                  {
+                    helperFunctions.saveUserLoggedInSP(true),
+                    helperFunctions.saveUserNameSP(userNameTEC.text),
+                    helperFunctions.saveUserEmailSP(emailTEC.text),
+                    dbMethods.uploadUserInfo(userMap),
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => ChatRoom()))
+                  }
+              });
     }
   }
 
