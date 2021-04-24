@@ -27,18 +27,17 @@ class _SignInState extends State<SignIn> {
     if (formKey.currentState.validate()) {
       dbMethods.getUserByUserEmail(emailTEC.text).then((val) {
         setState(() {
-          snapshot = val;
+          userName = val.docs[0].data()["name"];
+          print("blaaa");
+          print(userName);
+          helperFunctions.saveUserEmailSP(emailTEC.text);
+          helperFunctions.saveUserNameSP(userName);
         });
       });
 
-      print(snapshot);
-      userName = snapshot.docs[0].data()["name"];
       setState(() {
         isLoading = true;
       });
-
-      // helperFunctions.saveUserEmailSP(emailTEC.text);
-      // helperFunctions.saveUserNameSP(userName);
 
       authMethods
           .signInWithEmailAndPassword(emailTEC.text, passwordTEC.text)
@@ -62,139 +61,147 @@ class _SignInState extends State<SignIn> {
         // title: Image.asset('assets/icon.png'),
         title: Text("Chat Snap"),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          height: MediaQuery.of(context).size.height - 50,
-          child: Column(
-            // crossAxisAlignment: CrossAxisAlignment.center,
-            // mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Form(
-                  key: formKey,
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(15),
-                        child: TextFormField(
-                          validator: (val) {
-                            return RegExp(
-                                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                    .hasMatch(val)
-                                ? null
-                                : "please enter the valid email";
-                          },
-                          controller: emailTEC,
-                          decoration: InputDecoration(
-                              hintText: "Email",
-                              hintStyle:
-                                  TextStyle(color: Colors.white, fontSize: 17),
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white))),
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(15),
-                        child: TextFormField(
-                          validator: (val) {
-                            return val.length > 6
-                                ? null
-                                : "Please provide passowrd greater than 6";
-                          },
-                          obscureText: true,
-                          controller: passwordTEC,
-                          decoration: InputDecoration(
-                              hintText: "Password",
-                              hintStyle:
-                                  TextStyle(color: Colors.white, fontSize: 17),
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white))),
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ],
-                  )),
-              SizedBox(
-                height: 15,
-              ),
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.only(right: 15, left: 15),
-                child: Text(
-                  "Forgot Password",
-                  style: TextStyle(color: Colors.white),
-                  textAlign: TextAlign.right,
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Container(
-                width: double.infinity,
-                margin: EdgeInsets.all(15),
-                height: 50,
-                child: InkWell(
-                  onTap: () {
-                    signMeIn();
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Sign In",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
+      body: isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : SingleChildScrollView(
+              child: Container(
+                height: MediaQuery.of(context).size.height - 50,
+                child: Column(
+                  // crossAxisAlignment: CrossAxisAlignment.center,
+                  // mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Form(
+                        key: formKey,
+                        child: Column(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(15),
+                              child: TextFormField(
+                                validator: (val) {
+                                  return RegExp(
+                                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                          .hasMatch(val)
+                                      ? null
+                                      : "please enter the valid email";
+                                },
+                                controller: emailTEC,
+                                decoration: InputDecoration(
+                                    hintText: "Email",
+                                    hintStyle: TextStyle(
+                                        color: Colors.white, fontSize: 17),
+                                    enabledBorder: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.white))),
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(15),
+                              child: TextFormField(
+                                validator: (val) {
+                                  return val.length > 6
+                                      ? null
+                                      : "Please provide passowrd greater than 6";
+                                },
+                                obscureText: true,
+                                controller: passwordTEC,
+                                decoration: InputDecoration(
+                                    hintText: "Password",
+                                    hintStyle: TextStyle(
+                                        color: Colors.white, fontSize: 17),
+                                    enabledBorder: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.white))),
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ],
+                        )),
+                    SizedBox(
+                      height: 15,
                     ),
-                    decoration: BoxDecoration(
-                        color: Colors.indigo[700],
-                        borderRadius: BorderRadius.circular(25)),
-                  ),
-                ),
-              ),
-              Container(
-                width: double.infinity,
-                margin: EdgeInsets.all(15),
-                height: 50,
-                child: Container(
-                  width: double.infinity,
-                  alignment: Alignment.center,
-                  child: Text(
-                    "Sign In with google",
-                    style: TextStyle(color: Colors.black, fontSize: 18),
-                  ),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(25)),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Don't have an account? ",
-                    style: TextStyle(color: Colors.white, fontSize: 15),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) => SignUp()));
-                    },
-                    child: Container(
+                    Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.only(right: 15, left: 15),
                       child: Text(
-                        "Register now",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            decoration: TextDecoration.underline),
+                        "Forgot Password",
+                        style: TextStyle(color: Colors.white),
+                        textAlign: TextAlign.right,
                       ),
                     ),
-                  )
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Container(
+                      width: double.infinity,
+                      margin: EdgeInsets.all(15),
+                      height: 50,
+                      child: InkWell(
+                        onTap: () {
+                          signMeIn();
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          alignment: Alignment.center,
+                          child: Text(
+                            "Sign In",
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                          decoration: BoxDecoration(
+                              color: Colors.indigo[700],
+                              borderRadius: BorderRadius.circular(25)),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: double.infinity,
+                      margin: EdgeInsets.all(15),
+                      height: 50,
+                      child: Container(
+                        width: double.infinity,
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Sign In with google",
+                          style: TextStyle(color: Colors.black, fontSize: 18),
+                        ),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(25)),
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Don't have an account? ",
+                          style: TextStyle(color: Colors.white, fontSize: 15),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SignUp()));
+                          },
+                          child: Container(
+                            child: Text(
+                              "Register now",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  decoration: TextDecoration.underline),
+                            ),
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
     );
   }
 }

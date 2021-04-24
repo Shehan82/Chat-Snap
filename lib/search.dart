@@ -34,6 +34,7 @@ class _SearchState extends State<Search> {
 
     print("heloooooooooooooooooooooooooollllllllllllllllllllllllllllllll");
     print(userName);
+    print("boooooooooooooooooo");
     SharedPreferences sp = await SharedPreferences.getInstance();
     print(sp.getString("USERNAME"));
 
