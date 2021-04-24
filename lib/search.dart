@@ -39,7 +39,14 @@ class _SearchState extends State<Search> {
     print(sp.getString("USERNAME"));
 
     // print(snapshot.docs[0].data()["name"]);
-    // List<String> users = [userName, snapshot.docs[0].data()["name"]];
+    List<String> users = [
+      sp.getString("USERNAME"),
+      userName
+    ]; //[logged person userName, searched person userName]
+    Map<String, dynamic> chatRoomInfo = {
+      "chatRoomID": sp.getString("USERNAME") + "_" + userName,
+      "users": users
+    };
   }
 
   Widget searchList() {
