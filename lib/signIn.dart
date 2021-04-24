@@ -3,6 +3,7 @@ import 'package:chat_app/chatRoom.dart';
 import 'package:chat_app/services/databaseFunc.dart';
 import 'package:chat_app/services/helper.dart';
 import 'package:chat_app/signUp.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
@@ -14,6 +15,9 @@ class _SignInState extends State<SignIn> {
   AuthMethods authMethods = new AuthMethods();
   TextEditingController emailTEC = new TextEditingController();
   TextEditingController passwordTEC = new TextEditingController();
+  DatabaseFunctions dbMethods = new DatabaseFunctions();
+  QuerySnapshot snapshot;
+  String userName;
 
   bool isLoading = false;
 
@@ -21,9 +25,20 @@ class _SignInState extends State<SignIn> {
 
   signMeIn() {
     if (formKey.currentState.validate()) {
+      dbMethods.getUserByUserEmail(emailTEC.text).then((val) {
+        setState(() {
+          snapshot = val;
+        });
+      });
+
+      print(snapshot);
+      userName = snapshot.docs[0].data()["name"];
       setState(() {
         isLoading = true;
       });
+
+      // helperFunctions.saveUserEmailSP(emailTEC.text);
+      // helperFunctions.saveUserNameSP(userName);
 
       authMethods
           .signInWithEmailAndPassword(emailTEC.text, passwordTEC.text)
@@ -31,7 +46,6 @@ class _SignInState extends State<SignIn> {
                 if (value != null)
                   {
                     helperFunctions.saveUserLoggedInSP(true),
-                    helperFunctions.saveUserEmailSP(emailTEC.text),
                     Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (context) => ChatRoom()))
                   }

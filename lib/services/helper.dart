@@ -11,6 +11,7 @@ class helperFunctions {
   }
 
   static Future<void> saveUserNameSP(String userName) async {
+    print("save userName");
     SharedPreferences sp = await SharedPreferences.getInstance();
     return sp.setString(sharedPreferencesUserNameKey, userName);
   }
@@ -27,12 +28,12 @@ class helperFunctions {
     return sp.getBool(sharedPreferencesUserLoggedInKey);
   }
 
-  static Future<String> getUserNameSP(String userName) async {
+  static Future<String> getUserNameSP() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     return sp.getString(sharedPreferencesUserNameKey);
   }
 
-  static Future<String> getUserEmailSP(String userEmail) async {
+  static Future<String> getUserEmailSP() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     return sp.getString(sharedPreferencesUserEmailKey);
   }

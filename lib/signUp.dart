@@ -27,20 +27,21 @@ class _SignUpState extends State<SignUp> {
         isLoading = true;
       });
 
+      helperFunctions.saveUserNameSP(userNameTEC.text);
+      helperFunctions.saveUserEmailSP(emailTEC.text);
+
       Map<String, String> userMap = {
         "email": emailTEC.text,
         "name": userNameTEC.text
       };
 
-      dbMethods.uploadUserInfo(userMap);
+      // dbMethods.uploadUserInfo(userMap);
       authMethods
           .signUpWithEmailAndPassword(emailTEC.text, passwordTEC.text)
           .then((value) => {
                 if (value != null)
                   {
                     helperFunctions.saveUserLoggedInSP(true),
-                    helperFunctions.saveUserNameSP(userNameTEC.text),
-                    helperFunctions.saveUserEmailSP(emailTEC.text),
                     dbMethods.uploadUserInfo(userMap),
                     Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (context) => ChatRoom()))

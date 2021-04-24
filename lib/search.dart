@@ -1,6 +1,8 @@
 import 'package:chat_app/services/databaseFunc.dart';
+import 'package:chat_app/services/helper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Search extends StatefulWidget {
   @override
@@ -12,6 +14,7 @@ class _SearchState extends State<Search> {
   DatabaseFunctions dbMethods = new DatabaseFunctions();
 
   QuerySnapshot snapshot;
+  String userNameSP;
 
   initiateSearch() {
     dbMethods.getUserByUserName(searchTEC.text).then((val) {
@@ -20,6 +23,22 @@ class _SearchState extends State<Search> {
       });
       print(snapshot.size);
     });
+  }
+
+  createChatRoomAndStartConversation(String userName) async {
+    // helperFunctions.getUserNameSP().then((value) {
+    //   print("object");
+    //   print(value);
+    // });
+    //
+
+    print("heloooooooooooooooooooooooooollllllllllllllllllllllllllllllll");
+    print(userName);
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    print(sp.getString("USERNAME"));
+
+    // print(snapshot.docs[0].data()["name"]);
+    // List<String> users = [userName, snapshot.docs[0].data()["name"]];
   }
 
   Widget searchList() {
@@ -31,6 +50,7 @@ class _SearchState extends State<Search> {
               return SearchTile(
                 userName: snapshot.docs[0].data()["name"],
                 userEmail: snapshot.docs[0].data()["email"],
+                search: new _SearchState(),
               );
             })
         : Container();
@@ -87,7 +107,8 @@ class _SearchState extends State<Search> {
 class SearchTile extends StatelessWidget {
   final String userName;
   final String userEmail;
-  SearchTile({this.userName, this.userEmail});
+  final _SearchState search;
+  SearchTile({this.userName, this.userEmail, this.search});
 
   @override
   Widget build(BuildContext context) {
@@ -110,9 +131,10 @@ class SearchTile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(40),
                 color: Colors.indigo[900]),
             child: Center(
-              child: InkWell(
+              child: GestureDetector(
                 onTap: () {
-                  print("helllooo hiiii");
+                  // print("fuck");
+                  search.createChatRoomAndStartConversation(userName);
                 },
                 child: Text(
                   "Message",
