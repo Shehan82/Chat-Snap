@@ -47,6 +47,10 @@ class _SearchState extends State<Search> {
       "chatRoomID": sp.getString("USERNAME") + "_" + userName,
       "users": users
     };
+
+    String docName = sp.getString("USERNAME") + "_" + userName;
+
+    dbMethods.createChatRoom(docName, chatRoomInfo);
   }
 
   Widget searchList() {
