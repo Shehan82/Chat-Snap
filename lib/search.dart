@@ -26,31 +26,20 @@ class _SearchState extends State<Search> {
   }
 
   createChatRoomAndStartConversation(String userName) async {
-    // helperFunctions.getUserNameSP().then((value) {
-    //   print("object");
-    //   print(value);
-    // });
-    //
-
-    print("heloooooooooooooooooooooooooollllllllllllllllllllllllllllllll");
-    print(userName);
-    print("boooooooooooooooooo");
     SharedPreferences sp = await SharedPreferences.getInstance();
     print(sp.getString("USERNAME"));
 
-    // print(snapshot.docs[0].data()["name"]);
     List<String> users = [
       sp.getString("USERNAME"),
       userName
     ]; //[logged person userName, searched person userName]
+
+    String chatRoomID = getChatRoomID(userName, sp.getString("USERNAME"));
     Map<String, dynamic> chatRoomInfo = {
-      "chatRoomID": sp.getString("USERNAME") + "_" + userName,
+      "chatRoomID": chatRoomID,
       "users": users
     };
-
-    String docName = sp.getString("USERNAME") + "_" + userName;
-
-    dbMethods.createChatRoom(docName, chatRoomInfo);
+    dbMethods.createChatRoom(chatRoomID, chatRoomInfo);
   }
 
   Widget searchList() {
@@ -158,5 +147,13 @@ class SearchTile extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+getChatRoomID(String a, String b) {
+  if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
+    return "$b\_$a";
+  } else {
+    return "$a\_$b";
   }
 }
