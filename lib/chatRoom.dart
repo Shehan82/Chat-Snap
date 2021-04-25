@@ -1,7 +1,9 @@
 import 'package:chat_app/services/auth.dart';
 import 'package:chat_app/search.dart';
+import 'package:chat_app/services/helper.dart';
 import 'package:chat_app/signIn.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ChatRoom extends StatefulWidget {
   @override
@@ -20,9 +22,12 @@ class _ChatRoomState extends State<ChatRoom> {
         actions: [
           InkWell(
             onTap: () {
-              authMethods.signOut();
-              Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (context) => SignIn()));
+              authMethods.signOut().then((value) => {
+                    print(value),
+                    helperFunctions.saveUserLoggedInSP(false),
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => SignIn()))
+                  });
             },
             child: Container(
                 padding: EdgeInsets.only(right: 10),
