@@ -16,6 +16,10 @@ class DatabaseFunctions {
         .get();
   }
 
+  getAllChats() async {
+    return await FirebaseFirestore.instance.collection("chatRoom").get();
+  }
+
   uploadUserInfo(userMap) {
     print(userMap);
     print("helloooo");
