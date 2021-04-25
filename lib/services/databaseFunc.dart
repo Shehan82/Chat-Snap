@@ -35,6 +35,8 @@ class DatabaseFunctions {
   }
 
   createMessage(chatRoomID, messageMap) {
+    print(chatRoomID);
+    print(messageMap);
     FirebaseFirestore.instance
         .collection("chatRoom")
         .doc(chatRoomID)
@@ -43,5 +45,14 @@ class DatabaseFunctions {
         .catchError((e) {
       print(e);
     });
+  }
+
+  getMessages(chatRoomID) async {
+    print(chatRoomID);
+    return await FirebaseFirestore.instance
+        .collection("chatRoom")
+        .doc(chatRoomID)
+        .collection("chats")
+        .snapshots();
   }
 }
