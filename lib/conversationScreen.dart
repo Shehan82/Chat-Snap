@@ -24,39 +24,65 @@ class _ConversationScreenState extends State<ConversationScreen> {
   // }
   //
   DatabaseFunctions dbMethods = new DatabaseFunctions();
+  String ust;
   sendMessage() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
-    String user = sp.getString("USERNAME");
-    Map<String, String> messageMap = {"message": msgTEC.text, "sendBy": user};
-    print(messageMap);
-    dbMethods.createMessage(widget.info["chatRoomID"], messageMap);
-    print("hellooooooo");
-    msgTEC.text = "";
+    // setState(() {
+    //   ust = sp.getString("USERNAME");
+    // });
+    if (msgTEC.text != "") {
+      String user = sp.getString("USERNAME");
+      Map<String, dynamic> messageMap = {
+        "message": msgTEC.text,
+        "sendBy": user,
+        "timeStamp": DateTime.now().microsecondsSinceEpoch
+      };
+      print(messageMap);
+      dbMethods.createMessage(widget.info["chatRoomID"], messageMap);
+      print("hellooooooo");
+      msgTEC.text = "";
+    }
   }
 
   Widget ChatMessageList() {
     return StreamBuilder(
       stream: chatMsgStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
-        return ListView.builder(
-            itemCount: snapshot.data.docs.length,
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return MessageTile(
-                msg: snapshot.data.docs[index].data()["message"],
-              );
-            });
+        return snapshot.hasData
+            ? Container(
+                margin: EdgeInsets.only(bottom: 100),
+                child: ListView.builder(
+                    itemCount: snapshot.data.docs.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return MessageTile(
+                        msg: snapshot.data.docs[index].data()["message"],
+                        isSendByMe:
+                            snapshot.data.docs[index].data()["sendBy"] == ust,
+                      );
+                    }),
+              )
+            : Container();
       },
     );
   }
 
+  setUst() async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    setState(() {
+      ust = sp.getString("USERNAME");
+    });
+  }
+
   @override
   void initState() {
+    setUst();
     dbMethods.getMessages(widget.info["chatRoomID"]).then((val) {
       setState(() {
         chatMsgStream = val;
       });
     });
+
     super.initState();
   }
 
@@ -71,6 +97,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
       body: Container(
         child: Stack(
           children: [
+            ChatMessageList(),
             Container(
               alignment: Alignment.bottomCenter,
               child: Container(
@@ -110,7 +137,6 @@ class _ConversationScreenState extends State<ConversationScreen> {
                 ),
               ),
             ),
-            ChatMessageList(),
           ],
         ),
       ),
@@ -120,13 +146,31 @@ class _ConversationScreenState extends State<ConversationScreen> {
 
 class MessageTile extends StatelessWidget {
   String msg;
-  MessageTile({this.msg});
+  bool isSendByMe;
+  MessageTile({this.msg, this.isSendByMe});
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text(
-        msg,
-        style: TextStyle(color: Colors.white),
+      alignment: isSendByMe ? Alignment.centerRight : Alignment.centerLeft,
+      width: MediaQuery.of(context).size.width,
+      child: Container(
+        margin: EdgeInsets.all(10),
+        padding: EdgeInsets.all(13),
+        decoration: BoxDecoration(
+            color: isSendByMe ? Colors.indigo[900] : Colors.grey[850],
+            borderRadius: isSendByMe
+                ? BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                    bottomLeft: Radius.circular(10))
+                : BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                    bottomRight: Radius.circular(10))),
+        child: Text(
+          msg,
+          style: TextStyle(color: Colors.white, fontSize: 15),
+        ),
       ),
     );
   }

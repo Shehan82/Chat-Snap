@@ -53,6 +53,7 @@ class DatabaseFunctions {
         .collection("chatRoom")
         .doc(chatRoomID)
         .collection("chats")
+        .orderBy("timeStamp", descending: false)
         .snapshots();
   }
 }
