@@ -1,4 +1,6 @@
+import 'package:chat_app/services/databaseFunc.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ConversationScreen extends StatefulWidget {
   Map<String, String> info;
@@ -12,11 +14,19 @@ class ConversationScreen extends StatefulWidget {
 class _ConversationScreenState extends State<ConversationScreen> {
   TextEditingController msgTEC = new TextEditingController();
 
-  @protected
-  @mustCallSuper
-  void initState() {
-    print("blaaaaaaaaaaaaaaaaaaaaaa");
-    print(widget.info["user"]);
+  // @protected
+  // @mustCallSuper
+  // void initState() {
+  //   print("blaaaaaaaaaaaaaaaaaaaaaa");
+  //   print(widget.info["user"]);
+  // }
+  //
+  DatabaseFunctions dbMethods = new DatabaseFunctions();
+  sendMessage() async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    String user = sp.getString("USERNAME");
+    Map<String, String> messageMap = {"message": msgTEC.text, "sendBy": user};
+    dbMethods.createMessage(widget.info["chatRoomID"], messageMap);
   }
 
   @override
