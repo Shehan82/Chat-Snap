@@ -1,3 +1,4 @@
+import 'package:chat_app/conversationScreen.dart';
 import 'package:chat_app/services/databaseFunc.dart';
 import 'package:chat_app/services/helper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -39,7 +40,10 @@ class _SearchState extends State<Search> {
       "chatRoomID": chatRoomID,
       "users": users
     };
-    dbMethods.createChatRoom(chatRoomID, chatRoomInfo);
+    if (userName != sp.getString("USERNAME")) {
+      dbMethods.createChatRoom(chatRoomID, chatRoomInfo);
+      return 1;
+    }
   }
 
   Widget searchList() {
@@ -135,7 +139,18 @@ class SearchTile extends StatelessWidget {
               child: GestureDetector(
                 onTap: () {
                   // print("fuck");
-                  search.createChatRoomAndStartConversation(userName);
+                  search
+                      .createChatRoomAndStartConversation(userName)
+                      .then((val) => {
+                            if (val != null)
+                              {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ConversationScreen()))
+                              }
+                          });
                 },
                 child: Text(
                   "Message",
