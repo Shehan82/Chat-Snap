@@ -33,4 +33,15 @@ class DatabaseFunctions {
       print(e);
     });
   }
+
+  createMessage(chatRoomID, messageMap) {
+    FirebaseFirestore.instance
+        .collection("chatRoom")
+        .doc(chatRoomID)
+        .collection("chats")
+        .add(messageMap)
+        .catchError((e) {
+      print(e);
+    });
+  }
 }

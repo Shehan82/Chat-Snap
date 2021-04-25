@@ -40,9 +40,12 @@ class _SearchState extends State<Search> {
       "chatRoomID": chatRoomID,
       "users": users
     };
+
+    Map<String, String> info = {"chatRoomID": chatRoomID, "user": userName};
+
     if (userName != sp.getString("USERNAME")) {
       dbMethods.createChatRoom(chatRoomID, chatRoomInfo);
-      return 1;
+      return info;
     }
   }
 
@@ -142,13 +145,16 @@ class SearchTile extends StatelessWidget {
                   search
                       .createChatRoomAndStartConversation(userName)
                       .then((val) => {
+                            print(val),
                             if (val != null)
                               {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            ConversationScreen()))
+                                            ConversationScreen(
+                                              info: val,
+                                            )))
                               }
                           });
                 },
