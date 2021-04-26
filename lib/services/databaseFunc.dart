@@ -17,7 +17,10 @@ class DatabaseFunctions {
   }
 
   getAllChats() async {
-    return await FirebaseFirestore.instance.collection("chatRoom").get();
+    return await FirebaseFirestore.instance
+        .collection("chatRoom")
+        .orderBy("timeStamp", descending: true)
+        .get();
   }
 
   uploadUserInfo(userMap) {

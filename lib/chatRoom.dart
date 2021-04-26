@@ -28,15 +28,18 @@ class _ChatRoomState extends State<ChatRoom> {
 
   Widget chatList() {
     return snapshot != null
-        ? ListView.builder(
-            itemCount: snapshot.size,
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return chatTile(
-                user: snapshot.docs[index].data()["users"][1],
-                chatRoomID: snapshot.docs[index].data()["chatRoomID"],
-              );
-            })
+        ? Container(
+            margin: EdgeInsets.only(top: 10),
+            child: ListView.builder(
+                itemCount: snapshot.size,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return chatTile(
+                    user: snapshot.docs[index].data()["users"][1],
+                    chatRoomID: snapshot.docs[index].data()["chatRoomID"],
+                  );
+                }),
+          )
         : Container();
   }
 
@@ -82,14 +85,6 @@ class _ChatRoomState extends State<ChatRoom> {
       ),
       body: Column(
         children: [
-          Container(
-            child: Center(
-              child: Text(
-                "I am the chat Room",
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          ),
           chatList(),
         ],
       ),
@@ -104,6 +99,9 @@ class chatTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.only(left: 12, top: 20, bottom: 20, right: 12),
+      decoration: BoxDecoration(
+          border: Border(bottom: BorderSide(width: 0.2, color: Colors.grey))),
       child: Text(
         user,
         style: TextStyle(color: Colors.white),

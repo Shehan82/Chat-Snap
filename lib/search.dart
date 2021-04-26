@@ -37,6 +37,7 @@ class _SearchState extends State<Search> {
 
     String chatRoomID = getChatRoomID(userName, sp.getString("USERNAME"));
     Map<String, dynamic> chatRoomInfo = {
+      "timeStamp": DateTime.now().millisecondsSinceEpoch,
       "chatRoomID": chatRoomID,
       "users": users
     };
