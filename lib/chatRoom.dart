@@ -1,3 +1,4 @@
+import 'package:chat_app/conversationScreen.dart';
 import 'package:chat_app/services/auth.dart';
 import 'package:chat_app/search.dart';
 import 'package:chat_app/services/databaseFunc.dart';
@@ -26,10 +27,19 @@ class _ChatRoomState extends State<ChatRoom> {
     super.initState();
   }
 
+  refreshPage() {
+    print("this is refresh page fucker");
+    dbMethods.getAllChats().then((val) {
+      print(val);
+      setState(() {
+        snapshot = val;
+      });
+    });
+  }
+
   Widget chatList() {
     return snapshot != null
         ? Container(
-            margin: EdgeInsets.only(top: 10),
             child: ListView.builder(
                 itemCount: snapshot.size,
                 shrinkWrap: true,
@@ -37,6 +47,7 @@ class _ChatRoomState extends State<ChatRoom> {
                   return chatTile(
                     user: snapshot.docs[index].data()["users"][1],
                     chatRoomID: snapshot.docs[index].data()["chatRoomID"],
+                    func: refreshPage,
                   );
                 }),
           )
@@ -95,16 +106,81 @@ class _ChatRoomState extends State<ChatRoom> {
 class chatTile extends StatelessWidget {
   String user;
   String chatRoomID;
-  chatTile({this.user, this.chatRoomID});
+  Function func;
+
+  chatTile({this.user, this.chatRoomID, this.func});
+
+  DatabaseFunctions dbMethods = new DatabaseFunctions();
+
+  createChatRoomAndStartConversation(String userName) async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+
+    List<String> users = [
+      sp.getString("USERNAME"),
+      userName
+    ]; //[logged person userName, searched person userName]
+
+    String chatRoomID = getChatRoomID(userName, sp.getString("USERNAME"));
+    Map<String, dynamic> chatRoomInfo = {
+      "timeStamp": DateTime.now().millisecondsSinceEpoch,
+      "chatRoomID": chatRoomID,
+      "users": users
+    };
+
+    Map<String, String> info = {"chatRoomID": chatRoomID, "user": userName};
+
+    if (userName != sp.getString("USERNAME")) {
+      dbMethods.createChatRoom(chatRoomID, chatRoomInfo);
+      return info;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(left: 12, top: 20, bottom: 20, right: 12),
-      decoration: BoxDecoration(
-          border: Border(bottom: BorderSide(width: 0.2, color: Colors.grey))),
-      child: Text(
-        user,
-        style: TextStyle(color: Colors.white),
+    return InkWell(
+      splashColor: Colors.indigo[900],
+      onTap: () {
+        createChatRoomAndStartConversation(user).then((val) => {
+              print(val),
+              if (val != null)
+                {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ConversationScreen(
+                                info: val,
+                              ))).then((value) => {
+                        dbMethods.getAllChats().then((val) {
+                          func();
+                        })
+                      })
+                }
+            });
+      },
+      child: Container(
+        padding: EdgeInsets.only(left: 12, top: 20, bottom: 20, right: 12),
+        decoration: BoxDecoration(
+            border: Border(
+                bottom: BorderSide(
+                    width: 1, color: Color.fromRGBO(255, 255, 255, 0.3)))),
+        child: Row(
+          children: [
+            Container(
+              child: Text(
+                user,
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+            ),
+            Spacer(),
+            Container(
+              alignment: Alignment.centerRight,
+              child: Icon(
+                Icons.navigate_next_rounded,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
