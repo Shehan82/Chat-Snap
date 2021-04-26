@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:chat_app/conversationScreen.dart';
 import 'package:chat_app/services/auth.dart';
 import 'package:chat_app/search.dart';
