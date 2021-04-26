@@ -71,7 +71,7 @@ class _SearchState extends State<Search> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.indigo[900],
-        title: Text("Chat Snappp"),
+        title: Text("Chat Snap"),
       ),
       body: Column(
         children: [
