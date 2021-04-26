@@ -16,9 +16,10 @@ class DatabaseFunctions {
         .get();
   }
 
-  getAllChats() async {
+  getAllChats(loggedInPerson) async {
     return await FirebaseFirestore.instance
         .collection("chatRoom")
+        // .where("users.kalana", isEqualTo: true)
         .orderBy("timeStamp", descending: true)
         .get();
   }

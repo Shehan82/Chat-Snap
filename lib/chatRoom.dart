@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:chat_app/conversationScreen.dart';
 import 'package:chat_app/services/auth.dart';
 import 'package:chat_app/search.dart';
@@ -16,20 +18,28 @@ class ChatRoom extends StatefulWidget {
 class _ChatRoomState extends State<ChatRoom> {
   DatabaseFunctions dbMethods = new DatabaseFunctions();
   QuerySnapshot snapshot;
+  String loggedInPerson;
   @override
   void initState() {
-    dbMethods.getAllChats().then((val) {
-      print(val);
+    helperFunctions.getUserNameSP().then((value) {
       setState(() {
-        snapshot = val;
+        loggedInPerson = value;
+        print(value);
+        dbMethods.getAllChats(value).then((val) {
+          print(val);
+          setState(() {
+            snapshot = val;
+          });
+        });
       });
     });
+
     super.initState();
   }
 
   refreshPage() {
     print("this is refresh page fucker");
-    dbMethods.getAllChats().then((val) {
+    dbMethods.getAllChats(loggedInPerson).then((val) {
       print(val);
       setState(() {
         snapshot = val;
@@ -38,17 +48,27 @@ class _ChatRoomState extends State<ChatRoom> {
   }
 
   Widget chatList() {
+    // print(snapshot.docs[3].data()["users"][1] == "kalana");
     return snapshot != null
         ? Container(
             child: ListView.builder(
                 itemCount: snapshot.size,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  return chatTile(
-                    user: snapshot.docs[index].data()["users"][1],
-                    chatRoomID: snapshot.docs[index].data()["chatRoomID"],
-                    func: refreshPage,
-                  );
+                  return snapshot.docs[index].data()["users"][1] ==
+                              loggedInPerson ||
+                          snapshot.docs[index].data()["users"][0] ==
+                              loggedInPerson
+                      ? chatTile(
+                          user: snapshot.docs[index].data()["users"][0] ==
+                                  loggedInPerson
+                              ? snapshot.docs[index].data()["users"][1]
+                              : snapshot.docs[index].data()["users"][0],
+                          chatRoomID: snapshot.docs[index].data()["chatRoomID"],
+                          func: refreshPage,
+                          loggedInPerson: loggedInPerson,
+                        )
+                      : Container();
                 }),
           )
         : Container();
@@ -85,7 +105,7 @@ class _ChatRoomState extends State<ChatRoom> {
           Navigator.push(
                   context, MaterialPageRoute(builder: (context) => Search()))
               .then((value) => {
-                    dbMethods.getAllChats().then((val) {
+                    dbMethods.getAllChats(loggedInPerson).then((val) {
                       print(val);
                       setState(() {
                         snapshot = val;
@@ -107,8 +127,9 @@ class chatTile extends StatelessWidget {
   String user;
   String chatRoomID;
   Function func;
+  String loggedInPerson;
 
-  chatTile({this.user, this.chatRoomID, this.func});
+  chatTile({this.user, this.chatRoomID, this.func, this.loggedInPerson});
 
   DatabaseFunctions dbMethods = new DatabaseFunctions();
 
@@ -150,7 +171,7 @@ class chatTile extends StatelessWidget {
                           builder: (context) => ConversationScreen(
                                 info: val,
                               ))).then((value) => {
-                        dbMethods.getAllChats().then((val) {
+                        dbMethods.getAllChats(loggedInPerson).then((val) {
                           func();
                         })
                       })
